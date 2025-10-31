@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: dockerfile.nginx
+    ports:
+      - "8080:80"
+    environment:
+      - PORT=${PORT}
+    depends_on:
+      - app_blue
+      - app_green
+    networks:
+      - app_network
+    volumes:
+      - nginx_logs:/var/log/nginx
+
+  app_blue:
+    image: ${BLUE_IMAGE}
+    ports:
+      - "8081:${PORT}"
+    environment:
+      - PORT=${PORT}
+      - APP_POOL=blue
+      - RELEASE_ID=${RELEASE_ID_BLUE}
+    networks:
+      - app_network
+
+  app_green:
+    image: ${GREEN_IMAGE}
+    ports:
+      - "8082:${PORT}"
+    environment:
+      - PORT=${PORT}
+      - APP_POOL=green
+      - RELEASE_ID=${RELEASE_ID_GREEN}
+    networks:
+      - app_network
+
+  alert_watcher:
+    build:
+      context: ./watcher
+      dockerfile: Dockerfile
+    environment:
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - ERROR_RATE_THRESHOLD=${ERROR_RATE_THRESHOLD}
+      - WINDOW_SIZE=${WINDOW_SIZE}
+      - ALERT_COOLDOWN_SEC=${ALERT_COOLDOWN_SEC}
+      - MAINTENANCE_MODE=${MAINTENANCE_MODE}
+      - ACTIVE_POOL=${ACTIVE_POOL}
+    volumes:
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - nginx
+    networks:
+      - app_network
+
+volumes:
+  nginx_logs:
+
+networks:
+  app_network:
+    driver: bridge
