@@ -103,3 +103,4 @@ All application headers are forwarded to clients:
 blue_image: Container image for Blue
 green_image: Container image for Green
 ```
+ 
