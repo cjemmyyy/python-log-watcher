@@ -1,6 +1,6 @@
 ---
 
-````{"id":"49210","variant":"standard","title":"Python Log Watcher – Blue-Green Deployment Monitor (No License)"}
+````
 # Python Log Watcher  
 **Lightweight Blue-Green Deployment Monitoring System**
 
@@ -92,3 +92,4 @@ Error Rate: 2.4% (Threshold: 2.0)
 | Tail logs | `docker-compose logs -f` |
 | Access Nginx shell | `docker exec -it <nginx_container> sh` |
 ````
+
