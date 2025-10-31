@@ -1,5 +1,3 @@
----
-````
 # Python Log Watcher  
 **Lightweight Blue-Green Deployment Monitoring System**
 
@@ -90,7 +88,8 @@ Error Rate: 2.4% (Threshold: 2.0)
 | Rebuild everything | `docker-compose up -d --build` |
 | Tail logs | `docker-compose logs -f` |
 | Access Nginx shell | `docker exec -it <nginx_container> sh` |
-````
+
+
 
 
 
